@@ -17,13 +17,8 @@ namespace Day2
             var numberOfValid = 0;
             foreach (var combination in combinations)
             {
-                var password = combination.Password;
-
-                var hasCharacterOnFirstValue = password[combination.First - 1] == combination.Character;
-                var hasCharacterOnSecondValue = password[combination.Second - 1] == combination.Character;
-
-                if ((hasCharacterOnFirstValue && hasCharacterOnSecondValue) ||
-                    (!hasCharacterOnFirstValue && !hasCharacterOnSecondValue))
+                if (combination.Password[combination.First - 1] == combination.Character ^ 
+                    combination.Password[combination.Second - 1] == combination.Character)
                 {
                     continue;
                 }
