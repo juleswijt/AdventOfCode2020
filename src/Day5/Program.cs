@@ -11,7 +11,7 @@ namespace Day5
                 .ReadAllLines("/Users/juleswijt/Development/AdventOfCode/2020/AdventOfCode2020/input/Day5.txt");
 
             var reader = new PassReader();
-            var passes = reader.Scan(values);
+            var passes = reader.ScanIds(values);
 
             Console.Write("Part 1: ");
             Console.WriteLine(
