@@ -15,7 +15,7 @@ namespace Day5
 
             Console.Write("Part 1: ");
             Console.WriteLine(
-                $"Number highest seat id is: {passes.Concat(new[] {0}).Max()}");
+                $"Number highest seat id is: {passes.Max()}");
 
             Console.Write("Part 1: ");
             Console.WriteLine(
