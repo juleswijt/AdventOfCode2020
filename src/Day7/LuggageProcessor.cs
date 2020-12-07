@@ -11,14 +11,7 @@ namespace Day7
             foreach (var rawBag in rawBags)
             {
                 var sentence = rawBag.Split(" ");
-                var bagColor = sentence[0] + sentence[1];
-
-                var bag = bags.FirstOrDefault(x => x.Color == bagColor);
-                if (bag == null)
-                {
-                    bag = new Bag {Color = bagColor};
-                    bags.Add(bag);
-                }
+                var bag = new Bag {Color = sentence[0] + sentence[1]};
 
                 var index = 4;
                 while (index < sentence.Length)
@@ -28,21 +21,64 @@ namespace Day7
                         break;
                     }
 
-                    var innerBagColor = sentence[index + 1] + sentence[index + 2];
-                    var innerBag = bags.FirstOrDefault(x => x.Color == innerBagColor);
-                    if (innerBag == null)
-                    {
-                        innerBag = new Bag {Color = innerBagColor};
-                        bags.Add(innerBag);
-                    }
-
-                    bag.InnerBags.Add(innerBag, int.Parse(sentence[index]));
+                    bag.InnerBags.Add(sentence[index + 1] + sentence[index + 2], int.Parse(sentence[index]));
 
                     index += 4;
                 }
+
+                bags.Add(bag);
             }
 
             return bags;
+        }
+
+        public static int ProcessPartOne(string[] rawBags)
+        {
+            var bags = ProcessBags(rawBags).ToArray();
+            return Calculate(bags, "shinygold", new List<string>()).Count;
+        }
+
+        public static List<string> Calculate(Bag[] bags, string bagColor, List<string> neededBags)
+        {
+            foreach (var bag in bags)
+            {
+                if (bag.InnerBags.Keys.Contains(bagColor))
+                {
+                    if (!neededBags.Contains(bag.Color))
+                    {
+                        neededBags.Add(bag.Color);
+                    }
+
+                    neededBags = Calculate(bags, bag.Color, neededBags);
+                }
+            }
+
+            return neededBags;
+        }
+
+        public static int ProcessPartTwo(string[] rawBags)
+        {
+            var bags = ProcessBags(rawBags).ToArray();
+            var shinyBag = ProcessBags(rawBags).First(b => b.Color == "shinygold");
+
+            return CalculatePartTwo(bags, shinyBag) - 1;
+        }
+
+        public static int CalculatePartTwo(Bag[] bags, Bag bag)
+        {
+            var total = 1;
+            if (bag.InnerBags.Count == 0)
+            {
+                return total;
+            }
+
+            foreach (var (color, count) in bag.InnerBags)
+            {
+                var lowerBag = bags.First(x => x.Color == color);
+                total += count * CalculatePartTwo(bags, lowerBag);
+            }
+
+            return total;
         }
     }
 }
