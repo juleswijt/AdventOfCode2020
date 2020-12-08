@@ -5,36 +5,31 @@ namespace Day8
 {
     public class GameConsole
     {
-        public static int GetTerminatedAccumulated(string[] input)
+        public static int GetTerminatedAccumulated(List<Instruction> instructions)
         {
-            AccumulateValue(input, out var accumulated);
+            AccumulateValue(instructions, out var accumulated);
 
             return accumulated;
         }
 
-        public static int GetFinishedAccumulated(string[] input)
+        public static int GetFinishedAccumulated(List<Instruction> instructions)
         {
-            var possibilities = new List<string[]> {input};
-            foreach (var value in input)
+            var possibilities = new List<List<Instruction>>();
+            foreach (var instruction in instructions)
             {
-                var index = Array.FindIndex(input, row => row == value);
-                if (value.Contains("jmp") || value.Contains("nop"))
+                if (instruction.Action == "acc")
                 {
-                    var possibility = new string[input.Length];
-                    input.CopyTo(possibility, 0);
-
-                    if (value.Contains("jmp"))
-                    {
-                        possibility[index] = possibility[index].Replace("jmp", "nop");
-                    }
-
-                    if (value.Contains("nop"))
-                    {
-                        possibility[index] = possibility[index].Replace("nop", "jmp");
-                    }
-
-                    possibilities.Add(possibility);
+                    continue;
                 }
+
+                var index = instructions.FindIndex(row => row == instruction);
+                var possibility = new List<Instruction>(instructions)
+                {
+                    [index] = new Instruction(instruction.Action == "jmp" ? "nop" : "jmp", instruction.Amount)
+                };
+
+
+                possibilities.Add(possibility);
             }
 
             foreach (var possibility in possibilities)
@@ -48,12 +43,13 @@ namespace Day8
             return 0;
         }
 
-        public static bool AccumulateValue(string[] input, out int accumulated)
+        public static bool AccumulateValue(List<Instruction> instructions, out int accumulated)
         {
-            var parsedIndexes = new List<int>();
             accumulated = 0;
+
             var index = 0;
-            while (index < input.Length)
+            var parsedIndexes = new List<int>();
+            while (index < instructions.Count)
             {
                 if (parsedIndexes.Contains(index))
                 {
@@ -62,25 +58,23 @@ namespace Day8
 
                 parsedIndexes.Add(index);
 
-                var split = input[index].Split(" ");
-                var action = split[0];
-                var amount = int.Parse(split[1].Replace("+", ""));
+                var instruction = instructions[index];
 
-                switch (action)
+                switch (instruction.Action)
                 {
                     case "nop":
                         index++;
                         continue;
                     case "jmp":
-                        if (amount == 0)
+                        if (instruction.Amount == 0)
                         {
                             return false;
                         }
 
-                        index += amount;
+                        index += instruction.Amount;
                         continue;
                     case "acc":
-                        accumulated += amount;
+                        accumulated += instruction.Amount;
                         index++;
                         continue;
                 }
