@@ -6,68 +6,51 @@ namespace Day10
     public class Jolter
     {
         public int[] Jolts { get; set; }
+        public int[] Options { get; } = {1, 2, 3};
+        public int OneJoltDifference { get; set; } = 0;
+        public int ThreeJoltDifference { get; set; } = 1;
 
         public Jolter(string[] jolts)
         {
-            Jolts = jolts.Select(int.Parse).ToArray();
+            Jolts = jolts.Select(int.Parse)
+                .OrderBy(x => x)
+                .ToArray();
         }
 
         public int CalculatePartOne()
         {
-            var oneJoltDifference = 0;
-            var threeJoltDifference = 0;
-
-            var order = new List<int>();
-
             var joltAmount = 0;
-            while (order.Count < Jolts.Length)
+            while (joltAmount < Jolts.Max())
             {
                 if (Jolts.Contains(joltAmount + 1))
                 {
                     joltAmount++;
-                    order.Add(joltAmount);
-                    oneJoltDifference++;
+                    OneJoltDifference++;
                     continue;
                 }
 
                 if (Jolts.Contains(joltAmount + 3))
                 {
                     joltAmount += 3;
-                    order.Add(joltAmount);
-                    threeJoltDifference++;
+                    ThreeJoltDifference++;
                 }
             }
 
-            return oneJoltDifference * (threeJoltDifference + 1);
+            return OneJoltDifference * ThreeJoltDifference;
         }
 
         public long CalculatePartTwo()
         {
-            var routes = new Dictionary<long, long> {{Jolts.Max() + 3, 1}};
-
-            var jolts = new[] {0}.Concat(Jolts);
-            foreach (var jolt in jolts.OrderBy(x => x).Reverse())
+            var arrangements = new Dictionary<long, long> {{Jolts.Max() + 3, 1}};
+            foreach (var jolt in  new[] {0}.Concat(Jolts).Reverse())
             {
-                long combinations = 0;
-                if (routes.ContainsKey(jolt + 1))
-                {
-                    combinations += routes[jolt + 1];
-                }
-
-                if (routes.ContainsKey(jolt + 2))
-                {
-                    combinations += routes[jolt + 2];
-                }
-
-                if (routes.ContainsKey(jolt + 3))
-                {
-                    combinations += routes[jolt + 3];
-                }
-
-                routes.Add(jolt, combinations);
+                arrangements.Add(jolt, Options
+                    .Where(option => arrangements.ContainsKey(jolt + option))
+                    .Sum(option => arrangements[jolt + option])
+                );
             }
 
-            return routes.Last().Value;
+            return arrangements.Last().Value;
         }
     }
 }
