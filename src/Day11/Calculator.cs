@@ -145,44 +145,5 @@ namespace Day11
 
             return hasChanges;
         }
-
-        // var adjacentDirections = new List<(int, int)>
-        // {
-        //     (seatIndex - 1, seatRowIndex - 1),
-        //     (seatIndex, seatRowIndex - 1),
-        //     (seatIndex + 1, seatRowIndex - 1),
-        //     (seatIndex + 1, seatRowIndex),
-        //     (seatIndex + 1, seatRowIndex + 1),
-        //     (seatIndex, seatRowIndex + 1),
-        //     (seatIndex - 1, seatRowIndex + 1),
-        //     (seatIndex - 1, seatRowIndex)
-        // };
-        //
-        // var adjacentSeats = 0;
-        //     foreach (var (x, y) in adjacentDirections)
-        // {
-        //     if (x >= 0 && x < seats.Length && y >= 0 && y < rows.Length)
-        //     {
-        //         if (rows[y][x] == '#')
-        //         {
-        //             adjacentSeats++;
-        //         }
-        //     }
-        //
-        //     if (adjacentSeats == 0)
-        //     {
-        //         newSeatRow.Add('#');
-        //     }
-        //
-        //     if (adjacentSeats >= 4)
-        //     {
-        //         newSeatRow.Add('L');
-        //     }
-        //
-        //     newSeatRow.Add(seats[seatIndex]);
-        // }
-        //
-        // var newRowLayout = new string(newSeatRow.ToArray());
-        // newSeatLayout.Add(newRowLayout);
     }
 }
