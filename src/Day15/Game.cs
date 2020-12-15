@@ -16,7 +16,7 @@ namespace Day15
             
             var iteration = input.Length + 1;
             var previous = 0L;
-            while (memory.Values.Max() < requestNumber)
+            while (iteration <= requestNumber)
             {
                 var newPrevious = 0L;
                 if (memory.ContainsKey(previous))
