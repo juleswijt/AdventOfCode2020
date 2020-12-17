@@ -31,7 +31,7 @@ namespace Day17
                 from x in xOptions
                 from y in yOptions
                 from z in zOptions
-                from w in zOptions
+                from w in wOptions
                 select new Vector4(x, y, z, w)).ToList();
 
             return neighbours.ToArray();

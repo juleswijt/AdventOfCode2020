@@ -36,7 +36,7 @@ namespace Day17
 
         public long CountNumberOfD4Cubes()
         {
-            for (var iteration = 0; iteration < 2; iteration++)
+            for (var iteration = 0; iteration < 6; iteration++)
             {
                 IterateD4Cubes();
             }
@@ -119,7 +119,6 @@ namespace Day17
             }
 
             D4Cubes = grid;
-            PrintD4CubeState();
         }
 
         private void PrintCubeState()
