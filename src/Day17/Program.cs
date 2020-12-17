@@ -11,11 +11,11 @@ namespace Day17
         {
             var computer = new Computer(Test);
             
-            Console.Write("Part 1: ");
-            Console.WriteLine($"Number of active cubes is {computer.CountNumberOfThreeDimensionalCubes()}");
+            // Console.Write("Part 1: ");
+            // Console.WriteLine($"Number of active cubes is {computer.CountNumberOfD3Cubes()}");
             
             Console.Write("Part 2: ");
-            // Console.WriteLine($"Number of active cubes is {computer.CountNumberOfFourDimensionalCubes()}");
+            Console.WriteLine($"Number of active cubes is {computer.CountNumberOfD4Cubes()}");
         }
     }
 }

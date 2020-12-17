@@ -4,18 +4,18 @@ using System.Numerics;
 
 namespace Day17
 {
-    public struct ThreeDimensionalCube
+    public struct D3Cube
     {
         public Vector3 Location { get; set; }
         public bool IsActive { get; set; }
 
-        public ThreeDimensionalCube(bool isActive, float x, float y, float z = 0)
+        public D3Cube(bool isActive, float x, float y, float z = 0)
         {
             Location = new Vector3(x, y, z);
             IsActive = isActive;
         }
 
-        public ThreeDimensionalCube(Vector3 vector)
+        public D3Cube(Vector3 vector)
         {
             Location = vector;
             IsActive = false;
